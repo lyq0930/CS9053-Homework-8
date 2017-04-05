@@ -14,22 +14,27 @@ public class SchedulerTester {
             jobList.addJob(new Job("5", convertToEpoch("04/03/2016 08:31"), convertToEpoch("04/03/2016 08:33"), 5d));
 
             JobList jobList2 = new JobList();
-            jobList2.addJob(new Job("1", convertToEpoch("04/03/2016 08:00"), convertToEpoch("04/03/2016 08:15"), 20d));
+            jobList2.addJob(new Job("1", convertToEpoch("04/03/2016 08:00"), convertToEpoch("04/03/2016 08:15"), 81d));
             jobList2.addJob(new Job("2", convertToEpoch("04/03/2016 08:10"), convertToEpoch("04/03/2016 08:35"), 9d));
             jobList2.addJob(new Job("3", convertToEpoch("04/03/2016 08:20"), convertToEpoch("04/03/2016 08:30"), 30d));
             jobList2.addJob(new Job("4", convertToEpoch("04/03/2016 08:28"), convertToEpoch("04/03/2016 08:34"), 40d));
             jobList2.addJob(new Job("5", convertToEpoch("04/03/2016 08:31"), convertToEpoch("04/03/2016 08:33"), 20d));
 
             JobList jobList3 = new JobList();
-            jobList3.addJob(new Job("1", convertToEpoch("04/03/2016 08:00"), convertToEpoch("04/03/2016 08:15"), 20d));
+            jobList3.addJob(new Job("1", convertToEpoch("04/03/2016 08:00"), convertToEpoch("04/03/2016 08:15"), 81d));
             jobList3.addJob(new Job("2", convertToEpoch("04/03/2016 08:10"), convertToEpoch("04/03/2016 08:35"), 90d));
             jobList3.addJob(new Job("3", convertToEpoch("04/03/2016 08:20"), convertToEpoch("04/03/2016 08:30"), 30d));
             jobList3.addJob(new Job("4", convertToEpoch("04/03/2016 08:28"), convertToEpoch("04/03/2016 08:34"), 40d));
             jobList3.addJob(new Job("5", convertToEpoch("04/03/2016 08:31"), convertToEpoch("04/03/2016 08:33"), 20d));
+            jobList3.addJob(new Job("6", convertToEpoch("04/03/2016 08:36"), convertToEpoch("04/03/2016 08:40"), 10d));
+
+            JobList jobList4 = new JobList();
+            jobList4.addJob(new Job("1", convertToEpoch("04/03/2016 08:00"), convertToEpoch("04/03/2016 08:15"), 20d));
 
             printTestCase(jobList);
             printTestCase(jobList2);
             printTestCase(jobList3);
+            printTestCase(jobList4);
         } catch (ParseException e) {
             System.out.print(e.getMessage());
         }
@@ -52,7 +57,7 @@ public class SchedulerTester {
     }
 
     private static void printTestCase(JobList jobList) {
-        List<Job> optimalJobScheduleForMaxNumber = LambdaScheduler.getMaxNumberOfJobs(jobList);
+        List<Job> optimalJobScheduleForMaxNumber = LambdaScheduler.getJobScheduleForMaxNumberOfJobs(jobList);
         List<Job> optimalJobScheduleForMaxValue = LambdaWeightedScheduler.getJobScheduleForMaxValue(jobList);
         System.out.printf("For the given %d jobs, the maximum number of jobs the container can accept is %d: ",
                 jobList.size(), numberOfJobsInSchedule(optimalJobScheduleForMaxNumber));

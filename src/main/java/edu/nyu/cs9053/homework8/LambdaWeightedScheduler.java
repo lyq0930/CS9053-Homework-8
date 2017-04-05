@@ -1,9 +1,6 @@
 package edu.nyu.cs9053.homework8;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LambdaWeightedScheduler {
     public static List<Job> getJobScheduleForMaxValue(JobList jobList) {
@@ -11,10 +8,18 @@ public class LambdaWeightedScheduler {
         if (jobList == null || jobList.isEmpty()) {
             return optimalJobSchedule;
         }
-        Map<Job, Double> jobCostSoFarMap = new LinkedHashMap<>(); // order preserving (by start time)
         double maxCost = 0d;
+        Map<Job, Double> jobCostSoFarMap = new LinkedHashMap<>(); // order preserving (by start time)
         for (Job job : jobList.getAllJobs()) {
-            double costSoFar = job.getCost();
+            double cost = job.getCost();
+            jobCostSoFarMap.put(job, cost);
+            if (cost > maxCost) {
+                maxCost = cost;
+                optimalJobSchedule.add(job);
+            }
+        }
+        Map<Job, List<Job>> path = new HashMap<>();
+        for (Job job : jobList.getAllJobs()) {
             List<Job> possibleJobSchedule = new LinkedList<>();
             for (Map.Entry<Job, Double> entry : jobCostSoFarMap.entrySet()) {
                 /*
@@ -24,20 +29,22 @@ public class LambdaWeightedScheduler {
                 if (entry.getKey() == job) {
                     break;
                 }
-
                 // The start earlier job is end before current job, non-overlapped
                 if (isEarlierJobNonOverlapped(entry.getKey(), job)) {
                     possibleJobSchedule.add(entry.getKey());
-                    double costAddFromThisEarlierJob = entry.getValue() + job.getCost();
-                    costSoFar = costAddFromThisEarlierJob > costSoFar ? costAddFromThisEarlierJob : costSoFar;
+                    double costSoFar = job.getCost() + entry.getValue();
+                    if (costSoFar > jobCostSoFarMap.get(job)) {
+                        jobCostSoFarMap.put(job, costSoFar);
+                    }
+                    if (costSoFar > maxCost) {
+                        maxCost = costSoFar;
+                        optimalJobSchedule = path.get(entry.getKey());
+                        optimalJobSchedule.add(job);
+                    }
                 }
             }
-            jobCostSoFarMap.put(job, costSoFar);
             possibleJobSchedule.add(job);
-            if (costSoFar > maxCost) {
-                maxCost = costSoFar;
-                optimalJobSchedule = possibleJobSchedule;
-            }
+            path.put(job, possibleJobSchedule);
         }
         return optimalJobSchedule;
     }

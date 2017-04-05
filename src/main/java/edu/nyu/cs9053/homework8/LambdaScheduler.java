@@ -8,7 +8,7 @@ import java.util.Queue;
 
 public class LambdaScheduler {
 
-    public static List<Job> getMaxNumberOfJobs(JobList jobList) {
+    public static List<Job> getJobScheduleForMaxNumberOfJobs(JobList jobList) {
         List<Job> optimalJobSchedule = new LinkedList<>();
         if (jobList == null || jobList.isEmpty()) {
             return optimalJobSchedule;
