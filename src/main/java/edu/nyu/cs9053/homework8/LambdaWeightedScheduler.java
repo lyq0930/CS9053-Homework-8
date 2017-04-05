@@ -15,10 +15,11 @@ public class LambdaWeightedScheduler {
             jobCostSoFarMap.put(job, cost);
             if (cost > maxCost) {
                 maxCost = cost;
-                optimalJobSchedule.add(job);
+                optimalJobSchedule = new LinkedList<>();
+                optimalJobSchedule.add(job); // most single valuable job
             }
         }
-        Map<Job, List<Job>> path = new HashMap<>();
+        Map<Job, List<Job>> pathMap = new HashMap<>();
         for (Job job : jobList.getAllJobs()) {
             List<Job> possibleJobSchedule = new LinkedList<>();
             for (Map.Entry<Job, Double> entry : jobCostSoFarMap.entrySet()) {
@@ -38,13 +39,13 @@ public class LambdaWeightedScheduler {
                     }
                     if (costSoFar > maxCost) {
                         maxCost = costSoFar;
-                        optimalJobSchedule = path.get(entry.getKey());
+                        optimalJobSchedule = new LinkedList<>(pathMap.get(entry.getKey()));
                         optimalJobSchedule.add(job);
                     }
                 }
             }
             possibleJobSchedule.add(job);
-            path.put(job, possibleJobSchedule);
+            pathMap.put(job, possibleJobSchedule);
         }
         return optimalJobSchedule;
     }

@@ -8,7 +8,7 @@ public class SchedulerTester {
         try {
             JobList jobList = new JobList();
             jobList.addJob(new Job("1", convertToEpoch("04/03/2016 08:00"), convertToEpoch("04/03/2016 08:15"), 20d));
-            jobList.addJob(new Job("2", convertToEpoch("04/03/2016 08:10"), convertToEpoch("04/03/2016 08:35"), 9d));
+            jobList.addJob(new Job("2", convertToEpoch("04/03/2016 08:10"), convertToEpoch("04/03/2016 08:35"), 10d));
             jobList.addJob(new Job("3", convertToEpoch("04/03/2016 08:20"), convertToEpoch("04/03/2016 08:30"), 30d));
             jobList.addJob(new Job("4", convertToEpoch("04/03/2016 08:28"), convertToEpoch("04/03/2016 08:34"), 40d));
             jobList.addJob(new Job("5", convertToEpoch("04/03/2016 08:31"), convertToEpoch("04/03/2016 08:33"), 5d));
@@ -35,6 +35,7 @@ public class SchedulerTester {
             printTestCase(jobList2);
             printTestCase(jobList3);
             printTestCase(jobList4);
+            printTestCase(new JobList()); // test for empty
         } catch (ParseException e) {
             System.out.print(e.getMessage());
         }
